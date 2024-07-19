@@ -1,8 +1,9 @@
 {
-  inputs.__functor.url = "git+ssh://git@github.com/flox/minicapacitor?ref=functor";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
 
-  outputs = _: _ {
-        recipes.packages = ./pkgs;
+  outputs = _: {
+    packages = builtins.mapAttrs (system: pkgs: {
+      default = pkgs.callPackage ./pkgs/flox-build-manifest {};
+    }) _.nixpkgs.legacyPackages;
   };
 }
