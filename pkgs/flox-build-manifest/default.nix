@@ -7,7 +7,7 @@ if [ -z "$FLOX_ENV" ]; then
   echo "FLOX_ENV not set, exiting."
   exit 1
 fi
-case "$1" in
+case "''${1-unset}" in
   "build") FLOX_BUILD_COMMAND="build" ;;
   "make") FLOX_BUILD_COMMAND="make" ;;
   *) exec "$FLOX_BIN" "$@" ;;
