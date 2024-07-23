@@ -14,6 +14,17 @@ case "$1" in
 esac
 shift
 
+set -x
+activate=true
+while [[ "$#" -gt 0 ]]; do
+     case "$1" in
+       -n|--no-activate)   activate=false; ;;
+       --)                 break; ;;
+       *) break; ;;
+     esac
+     shift;
+done
+
 pushd "$FLOX_ENV_PROJECT"
 
 # calculate temp path of same strlen as eventual "install-prefix" pkg storePath
@@ -42,6 +53,7 @@ nix build --file ${./build-manifest.nix} \
   --argstr name "$name" \
   --argstr flox-env "$FLOX_ENV" \
   --argstr install-prefix "$PREFIX" \
+  --arg activate "$activate" \
   -L "$@"
 
 popd

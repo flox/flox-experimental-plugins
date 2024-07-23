@@ -3,6 +3,7 @@
   name,
   flox-env,
   install-prefix,
+  activate,
 }:
 
 let
@@ -18,6 +19,8 @@ in
     tar -C ${install-prefix-contents} -c --mode=u+w -f - . | \
       sed --binary "s%${install-prefix}%$out%g" | \
       tar -C $out -xf -
+
+    ${if activate then ''
     # Wrap contents of files in bin with ${flox-env-package}/activate
     for prog in $out/bin/* $out/sbin/*; do
       assertExecutable "$prog"
@@ -28,4 +31,6 @@ in
         --set FLOX_ENV "${flox-env-package}" \
         --add-flags "$hidden"
     done
+
+    '' else " "}
   ''
