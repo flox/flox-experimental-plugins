@@ -3,7 +3,7 @@
   name,
   flox-env,
   install-prefix,
-  activate,
+  activate ? true,
 }:
 
 let
