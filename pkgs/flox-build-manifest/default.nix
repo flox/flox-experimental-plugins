@@ -1,18 +1,20 @@
-{writeShellApplication, runCommand,dasel}: 
+{writeShellApplication, runCommand,dasel}:
 writeShellApplication {
-  name = "flox-experimental";
+  name = "flox";
   text = ''
+set -eau
 if [ -z "$FLOX_ENV" ]; then
   echo "FLOX_ENV not set, exiting."
   exit 1
 fi
 case "$1" in
-  "build-manifest") FLOX_BUILD_COMMAND="build" ;;
-  "make-manifest") FLOX_BUILD_COMMAND="make" ;;
-  *) exec flox "$@" ;;
+  "build") FLOX_BUILD_COMMAND="build" ;;
+  "make") FLOX_BUILD_COMMAND="make" ;;
+  *) exec "$FLOX_BIN" "$@" ;;
 esac
+shift
 
-set -ex
+pushd "$FLOX_ENV_PROJECT"
 
 # calculate temp path of same strlen as eventual "install-prefix" pkg storePath
 # TODO: make this stable, hashed on cwd + $FLOX_ENV for reuse
@@ -37,11 +39,12 @@ chmod +x "$FLOX_ENV_CACHE"/../build_script.sh
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
 nix build --file ${./build-manifest.nix} \
-  --offline \
   --argstr name "$name" \
   --argstr flox-env "$FLOX_ENV" \
   --argstr install-prefix "$PREFIX" \
-  -L
+  -L "$@"
+
+popd
 
 # Don't remove to allow development for builds that want to
 # find things in $PREFIX.
