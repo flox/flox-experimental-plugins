@@ -38,7 +38,7 @@ pushd "$FLOX_ENV_PROJECT"
 name="$(${dasel}/bin/dasel -w xml -f "$FLOX_ENV_CACHE"/../env/manifest.toml vars.name)"
 
 # totally random to prevent collisions
-PREFIX="/tmp/store_$(readlink -f "$FLOX_ENV" | sha256sum | head -c32)-$name"
+PREFIX="/tmp/store_$( { readlink -f "$FLOX_ENV" ; echo "$FLOX_ENV_PROJECT" ; } | sha256sum | head -c32)-$name"
 export PREFIX
 export out="$PREFIX"
 
