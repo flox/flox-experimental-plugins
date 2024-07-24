@@ -55,12 +55,17 @@ fi
 
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
-if [[ "''${FLOX_BUILD_COMMAND}" != "phase" ]]; then
-  nix build --file ${./build-manifest.nix} \
-    --argstr name "$name" \
-    --argstr flox-env "$FLOX_ENV" \
-    --argstr install-prefix "$PREFIX" \
-    -L "''${nix_args[@]}"
+if [[ -e "$PREFIX" ]]; then
+  if [[ "''${FLOX_BUILD_COMMAND}" != "phase" ]]; then
+    nix build --file ${./build-manifest.nix} \
+      --argstr name "$name" \
+      --argstr flox-env "$FLOX_ENV" \
+      --argstr install-prefix "$PREFIX" \
+      -L "''${nix_args[@]}"
+  fi
+else
+  echo "Build script did not produce a result in $PREFIX"
+  exit 1
 fi
 
 popd
