@@ -8,6 +8,8 @@
 
         flox-build-manifest =
           pkgs.callPackage ./pkgs/flox-build-manifest {};
+
+        flox-build-impure = pkgs.callPackage ./pkgs/flox-build-impure {};
       })
       _.nixpkgs.legacyPackages;
   };
