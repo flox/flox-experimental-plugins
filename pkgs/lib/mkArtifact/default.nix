@@ -54,7 +54,8 @@ args @ {
           mkdir -p "$TMPDIR"
 
           # Read-only source-files
-          cp -Rs --no-preserve=mode $source src
+          cp -Rs $source src
+          chmod -R +w ./source
           cd src
         }
         cached-build

@@ -21,7 +21,8 @@ pkgs.runCommand name {
   # Copy sources into sandbox
   # TODO: can we prevent copying **everything**?
   ls -alh ${new_source}
-  cp -r --no-preserve=mode ${new_source} ./source
+  cp -r  ${new_source} ./source
+  chmod -R +w ./source
   cd source
   eval "$(${builtins.storePath env}/activate)"
 

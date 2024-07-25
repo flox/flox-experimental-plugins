@@ -96,7 +96,8 @@ mkArtifact name {
   meta.fromEnv = true;
 } ''
 
-  cp -r --no-preserve=mode $source ./source
+  cp -r $source ./source
+  chmod -R +w ./source
   cd source
   eval "$(${builtins.storePath env}/activate)"
 
