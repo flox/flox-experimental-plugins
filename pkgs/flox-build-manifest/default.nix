@@ -1,7 +1,7 @@
-{writeShellApplication, fq, coreutils}:
+{writeShellApplication, fd, coreutils}:
 writeShellApplication {
   name = "flox-build-manifest";
-  runtimeInputs = [ fq coreutils ];
+  runtimeInputs = [ fd coreutils ];
   text = ''
 set -eaux -o pipefail
 
