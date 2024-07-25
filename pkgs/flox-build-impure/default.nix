@@ -16,15 +16,6 @@ readarray packages < <(fd '.' "$package_builds/" -x echo "{/}" )
 package="''${1?"build target required, one of: ''${packages[*]-no packages found}"}";
 shift;
 
-set -x
-while [[ "$#" -gt 0 ]]; do
-     case "$1" in
-       --)                 break; ;;
-       *) break; ;;
-     esac
-     shift;
-done
-
 pushd "$FLOX_ENV_PROJECT"
 
 # Create new env layering results of build script with original env.
