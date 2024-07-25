@@ -12,7 +12,7 @@ let
   };
 in
 pkgs.runCommand name {
-  buildInputs = [(builtins.storePath env) pkgs.cacert];
+  buildInputs = [pkgs.cacert];
   meta.fromEnv = true;
 } ''
   export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
@@ -23,7 +23,7 @@ pkgs.runCommand name {
   ls -alh ${new_source}
   cp -r --no-preserve=mode ${new_source} ./source
   cd source
-  eval "$(${env}/activate)"
+  eval "$(${builtins.storePath env}/activate)"
 
   . ${script}
 ''
