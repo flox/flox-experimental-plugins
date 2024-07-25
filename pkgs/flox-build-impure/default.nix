@@ -23,8 +23,8 @@ pushd "$FLOX_ENV_PROJECT"
 nix build --file ${./impure-build.nix} \
   --argstr name "$package" \
   --argstr env "$(readlink -f "$FLOX_ENV")" \
-  --argstr script "$package_builds/$package" \
-  --argstr source "$FLOX_ENV_PROJECT" \
+  --arg script "$package_builds/$package" \
+  --arg source "$FLOX_ENV_PROJECT" \
   -L "$@"
 
 popd
