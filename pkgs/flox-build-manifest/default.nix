@@ -21,8 +21,11 @@ pushd "$FLOX_ENV_PROJECT"
 out="/tmp/store_$( { readlink -f "$FLOX_ENV" ; echo "$FLOX_ENV_PROJECT" ; }| sha256sum | head -c32)-$package"
 export out
 
-# Perform build script with activated environment
-"$FLOX_ENV"/activate "$package_builds"/"$package"
+# Until they are executable
+mkdir -p "$FLOX_ENV_CACHE"/
+cp -f "$package_builds"/"$package" "$FLOX_ENV_CACHE"/builder
+chmod +x "$FLOX_ENV_CACHE"/builder
+"$FLOX_ENV"/activate "$FLOX_ENV_CACHE"/builder
 
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
