@@ -25,7 +25,7 @@ export NIX_CONFIG="extra-experimental-features = nix-command"
 # the build for PKGNAME, performing TOFU for the fetch in order
 # to turn it into a FOD.
 
-hash="$(fq '.vars.fetch_hash' .flox/env/manifest.toml)"
+hash="$(fq -r '.vars.fetch_hash' .flox/env/manifest.toml)"
 if [[ "$hash" = "null" ]]; then
   read -r hash < <(
   nix build --file ${./staging.nix} \
@@ -36,7 +36,14 @@ if [[ "$hash" = "null" ]]; then
     --arg source "$FLOX_ENV_PROJECT" \
     -L fetch "$@" \
         |& ${gawk}/bin/awk '/got:    sha256/{print $2}1{print $0 > "/dev/stderr"}' )
-  fq '.vars.fetch_hash = "'"$hash"'"' .flox/env/manifest.toml
+
+  # Ew.... use the better Rust manager to preserve structure/comments
+  TMP_FILE="$(mktemp)"
+  flox list -c > "$TMP_FILE"
+  sed -i "$TMP_FILE" -e "s|^\[vars\]$|\[vars\]\nfetch_hash=\"$hash\"|"
+  cat "$TMP_FILE"
+  flox edit -f "$TMP_FILE"
+  rm "$TMP_FILE"
 fi
 
 nix build --file ${./staging.nix} \
