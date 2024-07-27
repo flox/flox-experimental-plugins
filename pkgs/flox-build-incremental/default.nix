@@ -30,7 +30,7 @@ nix config show | grep allowed-impure-host-deps | grep -F "/nix/var/cache"
 
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
-nix build --file ${./incremental-build.nix} \
+nix build --file ${./build.nix} \
   --argstr name "$package" \
   --argstr env "$(readlink -f "$FLOX_ENV")" \
   --arg script "$package_builds/$package" \

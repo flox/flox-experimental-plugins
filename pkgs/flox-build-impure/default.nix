@@ -20,7 +20,7 @@ pushd "$FLOX_ENV_PROJECT"
 
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
-nix build --file ${./impure-build.nix} \
+nix build --file ${./build.nix} \
   --argstr name "$package" \
   --argstr env "$(readlink -f "$FLOX_ENV")" \
   --arg script "$package_builds/$package" \

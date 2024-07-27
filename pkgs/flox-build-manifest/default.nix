@@ -29,7 +29,7 @@ chmod +x "$FLOX_ENV_CACHE"/builder
 
 # Create new env layering results of build script with original env.
 # Note: read name from manifest.toml (includes version)
-nix build --file ${./build-manifest.nix} \
+nix build --file ${./build.nix} \
   --extra-experimental-features nix-command \
   --argstr name "$package" \
   --argstr flox-env "$FLOX_ENV" \
