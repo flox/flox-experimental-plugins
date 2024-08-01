@@ -12,13 +12,8 @@ let
   };
 in
 pkgs.runCommand name {
-  buildInputs = [pkgs.cacert];
-  __impure = true;
   meta.fromEnv = true;
 } ''
-  export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
-  export PREFIX="$out"
-
   # Copy sources into sandbox
   # TODO: can we prevent copying **everything**?
   ls -alh ${new_source}

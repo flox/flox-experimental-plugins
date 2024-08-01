@@ -17,6 +17,7 @@
           ];
         };
         flox-build-manifest = pkgs.callPackage ./pkgs/flox-build-manifest {};
+        flox-build-pure = pkgs.callPackage ./pkgs/flox-build-pure {};
         flox-build-impure = pkgs.callPackage ./pkgs/flox-build-impure {};
         flox-build-incremental = pkgs.callPackage ./pkgs/flox-build-incremental {};
         flox-build-staged = pkgs.callPackage ./pkgs/flox-build-staged {};
