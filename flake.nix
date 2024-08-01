@@ -3,9 +3,19 @@
 
   outputs = _: {
     packages =
-      builtins.mapAttrs (system: pkgs: {
+      builtins.mapAttrs (system: pkgs: rec {
         default = pkgs.callPackage ./pkgs/flox-build-proxy {};
 
+        all = pkgs.buildEnv {
+          name = "builders";
+          paths = [
+            flox-build-manifest
+            flox-build-impure
+            flox-build-incremental
+            flox-build-staged
+            flox-build-carry
+          ];
+        };
         flox-build-manifest = pkgs.callPackage ./pkgs/flox-build-manifest {};
         flox-build-impure = pkgs.callPackage ./pkgs/flox-build-impure {};
         flox-build-incremental = pkgs.callPackage ./pkgs/flox-build-incremental {};

@@ -25,18 +25,22 @@ pkgs.runCommand name ({
   carry_in = builtins.storePath carry;
 }))
 ''
-  cp -TRv $source ./source
+  carry_temp=$PWD/carry_temp
+  mkdir $carry_temp
+
+  echo "Copying $source to ./source"
+  cp -TR $source ./source
   chmod -R +w ./source
-  cd source
+  cd ./source
   ${if carry == "" then "" else ''
-     cp -nTRv $carry_in .
+     echo "Copying $carry_in to ."
+     cp -nTR $carry_in .
      chmod -R +w .
   ''}
   eval "$(${builtins.storePath env}/activate)"
 
-  set -x
   . ${script}
-  mkdir -p $carry
-  cp -rt $carry .
-  set +x
+
+  echo "Copying CWD to $carry"
+  cp -TR . $carry
 ''
