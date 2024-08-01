@@ -10,6 +10,7 @@
         flox-build-impure = pkgs.callPackage ./pkgs/flox-build-impure {};
         flox-build-incremental = pkgs.callPackage ./pkgs/flox-build-incremental {};
         flox-build-staged = pkgs.callPackage ./pkgs/flox-build-staged {};
+        flox-build-carry = pkgs.callPackage ./pkgs/flox-build-carry {};
         lib = pkgs.lib // {
             mkArtifact = pkgs.callPackage ./pkgs/lib/mkArtifact {};
         };
