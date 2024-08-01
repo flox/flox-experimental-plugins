@@ -32,7 +32,7 @@ chmod +x "$FLOX_ENV_CACHE"/builder
 nix build --file ${./build.nix} \
   --extra-experimental-features nix-command \
   --argstr name "$package" \
-  --argstr flox-env "$FLOX_ENV" \
+  --argstr env "$FLOX_ENV" \
   --argstr install-prefix "$out" \
   -L "$@"
 

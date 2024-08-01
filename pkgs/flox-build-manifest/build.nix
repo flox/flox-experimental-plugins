@@ -1,20 +1,24 @@
 {
   pkgs ? import <nixpkgs> {},
   name,
-  flox-env,
+  env,
+  script ? null,
+  source ? null,
+
   install-prefix,
   activate ? true,
 }:
 
+
 let
 
-  flox-env-package = builtins.storePath flox-env;
+  flox-env-package = builtins.storePath env;
   install-prefix-contents = /. + install-prefix;
 
 in
   pkgs.runCommand name {
     buildInputs = with pkgs; [ flox-env-package gnutar gnused makeWrapper ];
-  } ''   
+  } ''
     mkdir $out
     tar -C ${install-prefix-contents} -c --mode=u+w -f - . | \
       sed --binary "s%${install-prefix}%$out%g" | \

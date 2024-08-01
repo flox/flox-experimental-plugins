@@ -2,11 +2,11 @@
   pkgs ? import <nixpkgs> {},
   name,
   env,
+  script,
+  source,
   fetch_script ? null,
   fetch_hash ? "",
   fetch_set ? ''["*"]'',
-  script,
-  source,
 }:
 let
   new_source = pkgs.lib.fileset.toSource {
