@@ -14,6 +14,7 @@
             flox-build-incremental
             flox-build-staged
             flox-build-carry
+            flox-containerize-docker
           ];
         };
         flox-build-manifest = pkgs.callPackage ./pkgs/flox-build-manifest {};
@@ -22,6 +23,7 @@
         flox-build-incremental = pkgs.callPackage ./pkgs/flox-build-incremental {};
         flox-build-staged = pkgs.callPackage ./pkgs/flox-build-staged {};
         flox-build-carry = pkgs.callPackage ./pkgs/flox-build-carry {};
+        flox-containerize-docker = pkgs.callPackage ./pkgs/flox-containerize-docker {};
         lib = pkgs.lib // {
             mkArtifact = pkgs.callPackage ./pkgs/lib/mkArtifact {};
         };
