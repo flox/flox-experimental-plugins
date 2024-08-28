@@ -3,31 +3,32 @@
 
   outputs = _: {
     packages =
-      builtins.mapAttrs (system: pkgs: rec {
-        default = pkgs.callPackage ./pkgs/flox-build-proxy {};
+      builtins.mapAttrs (system: pkgs: let p = pkgs.lib.makeScope pkgs.newScope (s: {
+        default = s.callPackage ./pkgs/flox-proxy {};
+        flox-proxy = s.callPackage ./pkgs/flox-proxy {};
 
-        all = pkgs.buildEnv {
+        all = s.buildEnv {
           name = "builders";
           paths = [
-            flox-build-manifest
-            flox-build-impure
-            flox-build-incremental
-            flox-build-staged
-            flox-build-carry
-            flox-containerize-docker
+            s.flox-build-manifest
+            s.flox-build-impure
+            s.flox-build-incremental
+            s.flox-build-staged
+            s.flox-build-carry
+            s.flox-containerize-docker
           ];
         };
-        flox-build-manifest = pkgs.callPackage ./pkgs/flox-build-manifest {};
-        flox-build-pure = pkgs.callPackage ./pkgs/flox-build-pure {};
-        flox-build-impure = pkgs.callPackage ./pkgs/flox-build-impure {};
-        flox-build-incremental = pkgs.callPackage ./pkgs/flox-build-incremental {};
-        flox-build-staged = pkgs.callPackage ./pkgs/flox-build-staged {};
-        flox-build-carry = pkgs.callPackage ./pkgs/flox-build-carry {};
-        flox-containerize-docker = pkgs.callPackage ./pkgs/flox-containerize-docker {};
-        lib = pkgs.lib // {
-            mkArtifact = pkgs.callPackage ./pkgs/lib/mkArtifact {};
+        flox-build-manifest = s.callPackage ./pkgs/flox-build-manifest {};
+        flox-build-pure = s.callPackage ./pkgs/flox-build-pure {};
+        flox-build-impure = s.callPackage ./pkgs/flox-build-impure {};
+        flox-build-incremental = s.callPackage ./pkgs/flox-build-incremental {};
+        flox-build-staged = s.callPackage ./pkgs/flox-build-staged {};
+        flox-build-carry = s.callPackage ./pkgs/flox-build-carry {};
+        flox-containerize-docker = s.callPackage ./pkgs/flox-containerize-docker {};
+        lib = s.lib // {
+            mkArtifact = s.callPackage ./lib/mkArtifact {};
         };
-      })
+      }); in p.packages p)
       _.nixpkgs.legacyPackages;
   };
 }

@@ -1,7 +1,10 @@
-{writeShellApplication, coreutils}:
+{writeShellApplication, coreutils, flox-proxy}:
 writeShellApplication {
   name = "flox-containerize-docker";
   runtimeInputs = [ coreutils ];
+  derivationArgs.postCheck = ''
+    ln -s ${flox-proxy}/bin/flox $out/bin/flox
+  '';
   text = ''
 set -eaux -o pipefail
 
