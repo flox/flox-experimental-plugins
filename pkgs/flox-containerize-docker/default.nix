@@ -63,7 +63,7 @@ fi
 "$engine" start "$name"
 
 # TODO: expose any "$@"?
-engine_output=$("$engine" exec -i -w /work -e FLOX_DISABLE_METRICS=true "$name" flox containerize -o - | "$engine" load)
+engine_output=$("$engine" exec -i -w /work -e FLOX_DISABLE_METRICS=true "$name" flox containerize -f - | "$engine" load)
 
 # TODO: Do in background?
 "$engine" stop -t 1 "$name"
